@@ -14,7 +14,7 @@ function LoginController($log, $location, authService) {
       $location.path('/home');
     })
     .catch(() => {
-      $log.error('Failed to signup through SignupController...');
+      $log.error('Failed to login through LoginController...');
     });
   };
 }
