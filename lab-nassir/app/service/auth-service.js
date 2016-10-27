@@ -33,12 +33,12 @@ function authService($q, $log, $http, $window) {
   service.signup = function(user) {
     $log.debug('hit authService.signup;');
     let url = `${__API_URL__}/api/signup`;
-    console.log('singup url', url);
+    $log.debug('authService.signup URL: ', url);
 
     let config = {
       headers: {
+        Accept: 'application/json',
         'Content-type': 'application/json',
-        'Accept': 'application/json',
       },
     };
 
