@@ -37,7 +37,7 @@ function authService($q, $log, $http, $window) {
 
     let config = {
       headers: {
-        Accept: 'application/json',
+        'Accept': 'application/json',
         'Content-type': 'application/json',
       },
     };
