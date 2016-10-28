@@ -8,9 +8,9 @@ function galleryService($q, $log, $http, authService) {
   service.galleries = [];
 
   service.createGallery = function(gallery) {
-    $log.debug('Hit galleryService.createGallery();');
+    $log.debug('Hit galleryService.createGallery;');
 
-    authService.getToken()
+    return authService.getToken()
     .then(token => {
       let url = `${__API_URL__}/api/gallery`;
       let config = {
@@ -34,6 +34,56 @@ function galleryService($q, $log, $http, authService) {
     });
 
   };
+
+
+  service.fetchGalleries = function() {
+    $log.debug('Hit galleryService.fetchGalleries;');
+
+    return authService.getToken()
+    .then(token => {
+      let url = `${__API_URL__}/api/gallery`;
+      let config = {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      return $http.get(url, config);
+    })
+    .then(res => {
+      $log.log('Gallery fetch successful;');
+      service.galleries = res.data;
+      return service.galleries;
+    })
+    .catch(err => {
+      $log.error(err.message);
+      return $q.reject(err);
+    });
+  };
+
+  service.deleteGalleries = function(galleryID) {
+    $log.debug('Hit galleryService.deleteGalleries;');
+
+    return authService.getToken()
+    .then(token => {
+      let url = `${__API_URL__}/api/gallery/${galleryID}`;
+      let config = {
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      return $http.delete(url, config);
+    })
+    .then(() => {
+      $log.log('Gallery delete successful;');
+    })
+    .catch(err => {
+      $log.error(err.message);
+      return $q.reject(err);
+    });
+  };
+
 
   return service;
 }
