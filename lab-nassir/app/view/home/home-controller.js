@@ -16,9 +16,15 @@ function HomeController($log, $rootScope, galleryService){
     });
   };
 
-  this.deleteGalleries = function() {
-    $log.debug('sfsfsfsfs', this.gallery);
-    galleryService.deleteGalleries(this.currentID)
+  this.deleteGalleries = function(galleryID) {
+    galleryService.deleteGalleries(galleryID)
+    .then(() => {
+      this.fetchGalleries();
+    });
+  };
+
+  this.updateGalleries = function(galleryID, galleryData) {
+    galleryService.updateGalleries(galleryID, galleryData)
     .then(() => {
       this.fetchGalleries();
     });

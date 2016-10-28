@@ -5,13 +5,21 @@
       <p> Name: {{gallery.name}}</p>
       <p> Description: {{gallery.desc}}</p>
       <p> ID: {{gallery._id}}</p>
-      <button ng-click="homeCtrl.deleteGalleries()"> - </button>
+      <button ng-click="homeCtrl.deleteGalleries(gallery._id)"> - </button>
       <form
         name="updateForm"
-        ng-submit="//call update with gallery._id, updateForm"
+        ng-submit="homeCtrl.updateGalleries(gallery._id, updateForm.gallery)"
         novalidate>
-        <input name="name" type="text" placeholder="name">
-        <input name="desc" type="text" placeholder="description">
+        <input
+          ng-model="updateForm.gallery.name"
+          name="name"
+          type="text"
+          placeholder="name">
+        <input
+          ng-model="updateForm.gallery.desc"
+          name="desc"
+          type="text"
+          placeholder="description">
         <button> Update </button>
       </form>
     </li>
