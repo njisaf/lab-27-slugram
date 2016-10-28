@@ -7,6 +7,7 @@
     <div class="form-group">
       <label for="name"> Name: </label>
       <input name="name"
+        class="form-control"
         type="text"
         uib-tooltip="Name required"
         ng-model="createGalleryCtrl.gallery.name"
@@ -15,12 +16,13 @@
     <div class="form-group">
       <label for="desc"> Description: </label>
       <input name="desc"
+      class="form-control"
         type="text"
         uib-tooltip="Description required"
         ng-model="createGalleryCtrl.gallery.desc"
         required>
     </div>
 
-    <button type="submit"> + </button>
+    <button class="btn btn-primary" type="submit"> + </button>
     </form>
 </section>
