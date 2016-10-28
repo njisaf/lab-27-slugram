@@ -23,6 +23,13 @@ function HomeController($log, $rootScope, galleryService){
     });
   };
 
+  this.updateGalleries = function(galleryID, galleryData) {
+    galleryService.updateGalleries(galleryID, galleryData)
+    .then(() => {
+      this.fetchGalleries();
+    });
+  };
+
   this.fetchGalleries();
   $rootScope.$on('$locationChangeSuccess', () => {
     this.fetchGalleries();
