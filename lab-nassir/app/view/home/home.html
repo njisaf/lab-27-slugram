@@ -5,7 +5,7 @@
       <p> Name: {{gallery.name}}</p>
       <p> Description: {{gallery.desc}}</p>
       <p> ID: {{gallery._id}}</p>
-      <button ng-click="homeCtrl.deleteGalleries()"> - </button>
+      <button ng-click="homeCtrl.deleteGalleries(gallery._id)"> - </button>
       <form
         name="updateForm"
         ng-submit="//call update with gallery._id, updateForm"
