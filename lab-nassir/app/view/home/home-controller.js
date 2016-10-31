@@ -10,27 +10,15 @@ function HomeController($log, $rootScope, galleryService){
   this.galleries = [];
 
   this.fetchGalleries = function() {
+    $log.debug('Fetching gallleries;');
     galleryService.fetchGalleries()
     .then(galleries => {
       this.galleries = galleries;
     });
   };
 
-  this.deleteGalleries = function(galleryID) {
-    galleryService.deleteGalleries(galleryID)
-    .then(() => {
-      this.fetchGalleries();
-    });
-  };
-
-  this.updateGalleries = function(galleryID, galleryData) {
-    galleryService.updateGalleries(galleryID, galleryData)
-    .then(() => {
-      this.fetchGalleries();
-    });
-  };
-
   this.fetchGalleries();
+
   $rootScope.$on('$locationChangeSuccess', () => {
     this.fetchGalleries();
   });

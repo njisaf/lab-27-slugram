@@ -16,8 +16,8 @@ function galleryService($q, $log, $http, authService) {
       let config = {
         headers: {
           Accept: 'application/json',
-          'Content-type': 'application/json',
           Authorization: `Bearer ${token}`,
+          'Content-type': 'application/json',
         },
       };
       return $http.post(url, gallery, config);
@@ -34,7 +34,6 @@ function galleryService($q, $log, $http, authService) {
     });
 
   };
-
 
   service.fetchGalleries = function() {
     $log.debug('Hit galleryService.fetchGalleries;');
