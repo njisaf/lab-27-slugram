@@ -41,16 +41,37 @@ function picService($q, $log, $http, Upload, authService) {
   };
 
 
-  // service.deleteGalleryPic = function(galleryData, picData) {
-    // log the method
-    // get a token from authService
-    // set the url to the pic delete route
-    // set config in the usual way
-    // $http.delete and etc
-    // on success, loop the galleryData.pics array and splice the specific pic out
-    // "resolve undefined"?? just return from the result .then block or something. just return, there's nothing
-    // on error log error and resolve err
-  // }
+  service.deleteGalleryPic = function(galleryData, picData) {
+    $log.debug('Hit picService.deleteGalleryPic();');
+
+    return authService.getToken()
+    .then(token => {
+      $log.log('galleryData', galleryData);
+      $log.log('picdata', picData);
+      let url = `${__API_URL__}/api/gallery/${galleryData._id}/pic/${picData._id}`;
+      let config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      return $http.delete(url, config);
+    })
+    .then(() => {
+      $log.log('GalleryPic delete successful;');
+      for (var i = 0; i < galleryData.pics.length; ++i) {
+        let current = galleryData.pics[i];
+        if (current._id === picData._id) {
+          galleryData.pics.splice(i, 1);
+          break;
+        }
+      }
+      return;
+    })
+    .catch(err => {
+      $log.error(err.message);
+      return $q.reject(err);
+    });
+  };
 
   return service;
 }

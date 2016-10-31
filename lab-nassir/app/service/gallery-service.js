@@ -82,6 +82,7 @@ function galleryService($q, $log, $http, authService) {
           break;
         }
       }
+      return;
     })
     .catch(err => {
       $log.error(err.message);
