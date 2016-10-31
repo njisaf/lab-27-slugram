@@ -10,7 +10,7 @@ module.exports = {
 };
 
 function EditGalleryController($log, galleryService) {
-  $log.debg('Initializing EditGalleryController;');
+  $log.debug('Initializing EditGalleryController;');
 
   this.updateGallery = function() {
     galleryService.updateGalleries(this.gallery._id, this.gallery);
