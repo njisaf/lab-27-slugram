@@ -17,7 +17,7 @@ function galleryService($q, $log, $http, authService) {
         headers: {
           Accept: 'application/json',
           Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
+          'Content-Type': 'application/json',
         },
       };
       return $http.post(url, gallery, config);
@@ -100,7 +100,7 @@ function galleryService($q, $log, $http, authService) {
         headers: {
           Accept: 'application/json',
           Authorization: `Bearer ${token}`,
-          'Content-type': 'application/json',
+          'Content-Type': 'application/json',
         },
       };
       return $http.put(url, galleryData, config);
