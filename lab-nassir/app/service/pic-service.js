@@ -46,8 +46,6 @@ function picService($q, $log, $http, Upload, authService) {
 
     return authService.getToken()
     .then(token => {
-      $log.log('galleryData', galleryData);
-      $log.log('picdata', picData);
       let url = `${__API_URL__}/api/gallery/${galleryData._id}/pic/${picData._id}`;
       let config = {
         headers: {
