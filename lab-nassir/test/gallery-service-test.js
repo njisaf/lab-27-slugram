@@ -3,13 +3,19 @@
 describe('Testing galleryService', function() {
   beforeEach(() => {
     angular.mock.module('demoApp');
-    angular.mock.inject((authService, galleryService, $httpBackend) => {
+    angular.mock.inject((authService, galleryService, $window, $httpBackend) => {
       this.authService = authService;
       authService.setToken('1234');
       this.galleryService = galleryService;
+      this.$window = $window;
       this.$httpBackend = $httpBackend;
     });
   });
+
+  // afterEach(() => {
+  //   this.authService.setToken(null);
+  //   this.$window.localStorage.clear();
+  // });
 
   describe('Testing galleryService.createGallery()', () => {
     it('Should return a gallery', () => {
@@ -100,7 +106,6 @@ describe('Testing galleryService', function() {
         return this.galleryService.updateGalleries(gallery._id, updatedExampleGallery);
       })
       .then(newGallery => {
-        console.log(newGallery);
         expect(newGallery.name).toBe(updatedExampleGallery.name);
         expect(newGallery.desc).toBe(updatedExampleGallery.desc);
         expect(Array.isArray(newGallery.pics)).toBe(true);
