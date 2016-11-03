@@ -3,12 +3,41 @@
 describe('Testing authService', function() {
   beforeEach(() => {
     angular.mock.module('demoApp');
-    angular.mock.inject((authService, $window, $httpBackend) => {
+    angular.mock.inject((authService, $rootScope, $window, $httpBackend) => {
       this.authService = authService;
+      this.$rootScope = $rootScope;
       this.$window = $window;
       this.$httpBackend = $httpBackend;
     });
   });
+
+  // describe('testing $q.resolve', () => {
+  //   it('should succeed', () => {
+  //     let response;
+  //     this.deferred.promise
+  //     .then(data => {
+  //       response = data;
+  //     });
+  //     this.deferred.resolve('OK!');
+  //     this.$rootScope.$apply();
+  //
+  //     expect(response).toBe('OK!');
+  //   });
+  // });
+
+  //this next test is breaking all my gallery tests.
+
+  // describe('Testing authService.getToken', () => {
+  //   it('Should return a token', () => {
+  //     this.authService.token = null;
+  //     this.$window.localStorage.setItem = ('token', 'hello world');
+  //     this.authService.getToken()
+  //     .then(token => {
+  //       expect(token).toEqual('hello world');
+  //     });
+  //     this.$rootScope.$apply();
+  //   });
+  // });
 
   describe('Testing authService.signup', () => {
     it('Should return a token and a 200 status', () => {
