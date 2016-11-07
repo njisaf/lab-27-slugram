@@ -2,50 +2,53 @@
 
 module.exports = ['$q', '$log', '$http', '$window', authService];
 
-function authService($q, $log, $http, $window) {
-  $log.debug('init authService;');
+function authService($q, $log, $http, $window){
+  $log.debug('init authService');
+  // create service
   let service = {};
-  let token = null;
+  service.token = null;
 
-  function setToken(_token) {
-    $log.debug('hit authService.setToken;');
-    if (!_token) return $q.reject(new Error('No token...'));
+  service.setToken = function(_token){
+    $log.debug('authService.service.setToken()');
+    if (! _token)
+      return $q.reject(new Error('no service.token'));
     $window.localStorage.setItem('token', _token);
-    token = _token;
-    return $q.resolve(token);
-  }
-
-  service.getToken = function() {
-    $log.debug('hit authService.getToken;');
-    if(token) return $q.resolve(token);
-    token = $window.localStorage.getItem('token');
-    if(token) return $q.resolve(token);
-    return $q.reject(new Error('Token not found...'));
+    service.token = _token;
+    return $q.resolve(service.token);
   };
 
-  service.logout = function() {
-    $log.debug('hit authService.logout;');
+  service.getToken = function(){
+    $log.debug('authService.getToken');
+    if (service.token) return $q.resolve(service.token);
+    service.token = $window.localStorage.getItem('token');
+    if (service.token) return $q.resolve(service.token);
+    return $q.reject(new Error('service.token not found'));
+  };
+
+  service.logout = function(){
+    $log.debug('authService.logout()');
     $window.localStorage.removeItem('token');
-    token = null;
+    service.token = null;
     return $q.resolve();
   };
 
   service.signup = function(user) {
-    $log.debug('hit authService.signup;');
+    $log.debug('authService.signup()');
     let url = `${__API_URL__}/api/signup`;
-    $log.debug('authService.signup URL: ', url);
+    console.log('signup url', url);
 
     let config = {
       headers: {
+        'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Content-type': 'application/json',
       },
     };
 
     return $http.post(url, user, config)
-    .then(res => {
+    .then( res => {
       $log.log('success', res.data);
-      return setToken(res.data);
+      // res.data is the response body aka the service.token
+      return service.setToken(res.data);
     })
     .catch(err => {
       $log.error('fail', err.message);
@@ -53,9 +56,10 @@ function authService($q, $log, $http, $window) {
     });
   };
 
-  service.login = function(user) {
-    $log.debug('hit authService.login');
+  service.login = function(user){
+    $log.debug('authService.login()');
     let url = `${__API_URL__}/api/login`;
+    // base64 encoded 'username:password'
     let base64 = $window.btoa(`${user.username}:${user.password}`);
 
     let config = {
@@ -64,16 +68,18 @@ function authService($q, $log, $http, $window) {
         Authorization: `Basic ${base64}`,
       },
     };
+
     return $http.get(url, config)
-    .then(res => {
-      $log.log('Success!', res.data);
-      return setToken(res.data);
+    .then( res => {
+      $log.log('success', res.data);
+      return service.setToken(res.data);
     })
-    .catch(err => {
+    .catch( err => {
       $log.error(err.message);
       return $q.reject(err);
     });
   };
 
+  // return service
   return service;
 }
