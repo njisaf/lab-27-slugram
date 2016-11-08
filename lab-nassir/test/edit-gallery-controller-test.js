@@ -13,6 +13,11 @@ describe('Testing editGalleryCtrl', function() {
   });
 
   afterEach(() => {
+    this.$httpBackend.verifyNoOutstandingExpectation();
+    this.$httpBackend.verifyNoOutstandingRequest();
+  });
+
+  afterEach(() => {
     this.authService.logout();
   });
 

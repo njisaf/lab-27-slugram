@@ -13,6 +13,11 @@ describe('Testing editGalleryCtrl', function() {
   });
 
   afterEach(() => {
+    this.$httpBackend.verifyNoOutstandingExpectation();
+    this.$httpBackend.verifyNoOutstandingRequest();
+  });
+
+  afterEach(() => {
     this.authService.logout();
   });
 
@@ -31,16 +36,16 @@ describe('Testing editGalleryCtrl', function() {
 
       let createGalleryCtrl = this.$componentController('createGallery', null);
 
-      createGalleryCtrl.gallery = {
-        name: 'Dumb Varmints',
-        desc: 'politicians amirite?',
-      };
 
       this.$httpBackend.expectPOST(`http://localhost:3000/api/gallery/`, gallery, headers)
       .respond(200, createGalleryCtrl.gallery);
 
+      createGalleryCtrl.gallery = {
+        name: 'Dumb Varmints',
+        desc: 'politicians amirite?',
+      };
       createGalleryCtrl.createGallery();
-
+      
       this.$httpBackend.flush();
 
       expect(createGalleryCtrl.gallery.name).toBe(null);
