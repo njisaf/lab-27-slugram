@@ -17,7 +17,7 @@ describe('Testing galleryLiCtrl', function() {
     this.$httpBackend.verifyNoOutstandingRequest();
   });
 
-  afterEach(() => {    
+  afterEach(() => {
     this.authService.logout();
   });
 
@@ -75,6 +75,40 @@ describe('Testing galleryLiCtrl', function() {
 
     this.$rootScope.$apply();
     this.$httpBackend.flush();
+  });
+
+  describe('Testing galleryLiCtrl.deleteGallery', () => {
+    it('should invoke galleryLiCtrl.deleteGallery();', () => {
+      let url = 'http://localhost:3000';
+
+      let headers = {
+        Accept: 'application/json, text/plain, */*',
+        Authorization: 'Bearer tokentoken',
+      };
+
+
+      let mockBindings = {
+        gallery: {
+          _id: '654321',
+          name: 'Pareidolia Gallery #17',
+          desc: 'buildings and barns that look like screaming faces',
+          pics: [],
+        },
+        deleteDone: function(data) {
+          expect(data.galleryData._id).toEqual('654321');
+        },
+      };
+
+      this.$httpBackend.expectDELETE(`${url}/api/gallery/654321`, headers)
+      .respond(204);
+
+      let galleryLiCtrl = this.$componentController('galleryLi', null, mockBindings);
+      galleryLiCtrl.deleteGallery();
+
+      this.$httpBackend.flush();
+      this.$rootScope.$apply();
+    });
+
   });
 
 });
