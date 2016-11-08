@@ -102,8 +102,8 @@ describe('Testing galleryLiCtrl', function() {
       let galleryLiCtrl = this.$componentController('galleryLi', null, mockBindings);
       galleryLiCtrl.deleteGallery();
 
-      this.$rootScope.$apply();
       this.$httpBackend.flush();
+      this.$rootScope.$apply();
     });
 
   });

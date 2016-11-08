@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Testing editGalleryCtrl', function() {
+describe('Testing createGalleryCtrl', function() {
   beforeEach(() => {
     angular.mock.module('demoApp');
     angular.mock.inject((authService, $componentController, $rootScope, $httpBackend) => {
@@ -21,7 +21,7 @@ describe('Testing editGalleryCtrl', function() {
     this.authService.logout();
   });
 
-  describe('Testing editGalleryCtrl.createGallery', () => {
+  describe('Testing createGalleryCtrl.createGallery', () => {
     it('should return a gallery and a 200 status', () => {
       let headers = {
         Accept: 'application/json',
@@ -34,18 +34,20 @@ describe('Testing editGalleryCtrl', function() {
         desc: 'politicians amirite?',
       };
 
-      let createGalleryCtrl = this.$componentController('createGallery', null);
+      let url = 'http://localhost:3000/api/gallery/';
+
+      let createGalleryCtrl = this.$componentController('createGallery', null, null);
 
 
-      this.$httpBackend.expectPOST(`http://localhost:3000/api/gallery/`, gallery, headers)
-      .respond(200, createGalleryCtrl.gallery);
+      this.$httpBackend.expectPOST(url, gallery, headers)
+      .respond(200, {name: createGalleryCtrl.name, desc: createGalleryCtrl.desc});
 
       createGalleryCtrl.gallery = {
-        name: 'Dumb Varmints',
-        desc: 'politicians amirite?',
+        name: gallery.name,
+        desc: gallery.desc,
       };
       createGalleryCtrl.createGallery();
-      
+
       this.$httpBackend.flush();
 
       expect(createGalleryCtrl.gallery.name).toBe(null);
