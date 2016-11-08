@@ -22,7 +22,7 @@ describe('Testing loginCtrl', function() {
   });
 
   describe('Testing loginCtrl.login', () => {
-    it('should return a token', () => {
+    it('should return a token and redirect to /home', () => {
       let url = 'http://localhost:3000/api/login';
 
       let exampleUser = {
@@ -30,12 +30,23 @@ describe('Testing loginCtrl', function() {
         password: 'Bill_Jenkins',
       };
 
-      let base64 = this.$window.btoa(`${user.username}:${user.password}`);
+      let base64 = this.$window.btoa(`${exampleUser.username}:${exampleUser.password}`);
 
       let headers = {
         Authorization: `Basic ${base64}`,
         Accept: 'application/json',
       };
+
+      let loginCtrl = this.$componentController('login', null, null);
+
+      this.$httpBackend.expectGET(url, headers)
+      .respond(200, 'thisisatoken');
+
+      loginCtrl.login(exampleUser);
+
+      this.$httpBackend.flush();
+      expect(this.$location.path()).toBe('/home');
+      this.$rootScope.$apply();
     });
   });
 
