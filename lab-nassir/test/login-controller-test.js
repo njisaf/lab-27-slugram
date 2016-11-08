@@ -3,11 +3,13 @@
 describe('Testing loginCtrl', function() {
   beforeEach(() => {
     angular.mock.module('demoApp');
-    angular.mock.inject(($rootScope, $componentController, authService, $httpBackend) => {
+    angular.mock.inject(($rootScope, $window, $location, $componentController, authService, $httpBackend) => {
       authService.setToken('tokentoken');
       this.authService = authService;
       this.$httpBackend = $httpBackend;
       this.$rootScope = $rootScope;
+      this.$window = $window;
+      this.$location = $location;
       this.$componentController = $componentController;
     });
   });
