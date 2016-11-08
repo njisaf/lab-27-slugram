@@ -94,6 +94,9 @@ describe('Testing galleryLiCtrl', function() {
           desc: 'buildings and barns that look like screaming faces',
           pics: [],
         },
+        deleteDone: function(data) {
+          expect(data.galleryData._id).toEqual('654321');
+        },
       };
 
       this.$httpBackend.expectDELETE(`${url}/api/gallery/654321`, headers)
